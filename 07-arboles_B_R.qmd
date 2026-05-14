@@ -2,7 +2,6 @@
 title: "Arboles B y R"
 format: html
 ---
-
 ## Árbol B-tree
 
 Los árboles son estructuras de datos balanceadas, diseñadas específicamente para sistemas de almacenamiento en discos duros y bases de datos, que permiten búsquedas, inserciones y eliminaciones rápidas (O(log n)) al mantener los datos ordenados con múltiples hijos, lo que reduce la profundidad del árbol.
@@ -453,6 +452,7 @@ Rectangle { x1: 0, y1: 0, x2: 5, y2: 5}
 Rectangle { x1: 3, y1: 3, x2: 8, y2: 8}
 ]
 ```
+
 **Ejemplo cotidiano**
 
 Sería una aplicación de mapas como Google Maps. Cuando buscas “restaurantes cerca de mí”, la aplicación no revisa todos los restaurantes del mundo, sino solo los que están dentro de una zona cercana a tu ubicación. Esto funciona parecido a cómo el árbol R organiza datos por regiones o áreas.
@@ -568,13 +568,14 @@ Ejecución en JavaScript
 El mínimo es: 5
 Extraído: 5
 ```
+
 **Ejemplo cotidiano**
 
 Un ejemplo cotidiano sería una sala de emergencias en un hospital. Los pacientes llegan constantemente y cada uno tiene una prioridad distinta. El sistema puede agregar nuevos pacientes rápidamente y reorganizar las prioridades solo cuando es necesario, atendiendo primero los casos más urgentes sin rehacer toda la lista cada vez que llega alguien nuevo.
 
 ## Fibonacci Heaps y R
-Los Fibonacci Heaps no vienen incluidos de forma nativa en R por lo cual la implementacion se complica como tambien se dificulta en mantener, ya que R se lo piensa para más el enfoque de análisis estadístico para manejar memoria o estructuras dinamicas. Para trabajar con colas de prioridad R se utiliza un heap binario que suele ser mas que suficiente para la mayoria de situaciones dadas ya que se complementa con el paquete de collections, para realizar todas las operaciones basicas de una cola prioridad de forma sencilla.
 
+Los Fibonacci Heaps no vienen incluidos de forma nativa en R por lo cual la implementacion se complica como tambien se dificulta en mantener, ya que R se lo piensa para más el enfoque de análisis estadístico para manejar memoria o estructuras dinamicas. Para trabajar con colas de prioridad R se utiliza un heap binario que suele ser mas que suficiente para la mayoria de situaciones dadas ya que se complementa con el paquete de collections, para realizar todas las operaciones basicas de una cola prioridad de forma sencilla.
 
 ### Implementación en R: Cola de Prioridad con Heap Binario
 
@@ -787,7 +788,6 @@ Próximo: Tarea A (urgente)
 
 Una aplicación de reparto de comida a domicilio es un ejemplo donde se combinan el árbol R, el heap binario y el montículo de Fibonacci: el árbol R organiza las ubicaciones de restaurantes, clientes y repartidores para encontrar rápidamente quién está más cerca de un pedido; el heap binario ordena los pedidos según prioridad, como entregas urgentes o tiempos límite; y el montículo de Fibonacci ayuda a recalcular rutas y actualizar prioridades de manera eficiente cuando aparecen nuevos pedidos, tráfico o cambios inesperados, permitiendo que todo el sistema funcione de forma rápida y organizada en tiempo real.
 
-
 ## Reto de Programación
 
 Una empresa de delivery y mapas necesita optimizar su sistema utilizando diferentes estructuras de datos. Para ello, se tienen los siguientes IDs de pedidos:
@@ -835,7 +835,7 @@ Con base en esta información, responde las siguientes preguntas:
     - Buscar zonas cercanas.
     - Atender primero lo urgente.
 
-## Conclución 
+## Conclusiones
 
 - Los B-Tree, R-Tree y Fibonacci Heap son estructuras de datos avanzadas que permiten organizar información de manera eficiente según diferentes necesidades computacionales. Cada una optimiza procesos específicos como búsquedas, almacenamiento o manejo de prioridades.
 
