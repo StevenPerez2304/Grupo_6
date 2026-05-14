@@ -114,3 +114,50 @@ Fibonacci Heap) es una estructura de datos de cola prioritaria que mejora la e
 ```
 
 <https://dl.acm.org/doi/abs/10.1145/2213977.2214082>
+
+## Reto de Programación
+
+Una empresa de delivery y mapas necesita optimizar su sistema utilizando diferentes estructuras de datos. Para ello, se tienen los siguientes IDs de pedidos:
+
+```{text}
+120, 15, 98, 201, 33, 150 y 77
+```
+
+Además, existen tres zonas de restaurantes representadas por rectángulos:
+
+```{text}
+R1 = (0,0)-(5,5)
+R2 = (3,3)-(8,8)
+R3 = (10,10)-(15,15)
+```
+
+Finalmente, las prioridades de entrega de algunos pedidos son:
+
+```{text}
+5, 1, 3 y 2
+```
+
+Donde el número más pequeño representa la mayor urgencia.
+
+Con base en esta información, responde las siguientes preguntas:
+
+1.  Si los IDs se almacenan en un árbol B-tree:
+    - ¿En qué orden quedarían almacenados?
+    - ¿Qué ventaja tendría usar esta estructura para buscar rápidamente el pedido `150` en comparación con una lista normal?
+2.  Si se realiza una búsqueda espacial en la zona:
+
+```{text}
+(4,4)-(6,6)
+```
+
+- ¿Qué rectángulos intersectan con esa área?
+- ¿Por qué un R-tree sería más eficiente que revisar todas las zonas manualmente?
+
+3.  Si las prioridades se insertan en un Fibonacci Heap:
+    - ¿Qué pedido sería atendido primero?
+    - ¿Cuál sería el nuevo mínimo después de extraerlo?
+    - ¿Por qué esta estructura resulta útil en sistemas de rutas o entregas urgentes?
+4.  Finalmente, relaciona qué estructura es más adecuada para:
+    - Buscar pedidos por ID.
+    - Buscar zonas cercanas.
+    - Atender primero lo urgente.
