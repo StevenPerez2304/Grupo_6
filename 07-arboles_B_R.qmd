@@ -13,14 +13,14 @@ Los nodos hoja del índice están almacenados en un orden aleatorio; esto signif
 ![Figura 1: Arbol B-tree.[@winand2012sql]](images\Arbol_B.png){fig-align="center" width="50%"}
 :::
 
-## Características Principales:
+### Características Principales:
 
 - **Balanceados:**Todas las hojas se encuentran al mismo nivel, asegurando tiempos de acceso uniformes.
 - **Multicamino:** A diferencia de los árboles binarios, cada nodo puede tener más de dos hijos.
 - **Ordenado:** Las claves dentro de cada nodo están ordenadas de forma ascendente.
 - **Optimizado para I/O:** Optimizados para leer/escribir grandes bloques de datos en disco en tiempo logarítmico.[@winand2012sql]
 
-## Estructura:
+### Estructura:
 
 - **Nodos:** Un nodo raíz, nodos internos y hojas.
 - **Claves y Punteros:** Cada nodo contiene un conjunto de claves y punteros a sus nodos hijos.
@@ -248,14 +248,14 @@ Este árbol ha sido diseñado para mantener celdas de bloque que se superpongan 
 
 Estos funcionan gracias a la agrupación de objetos cercanos mediante los cuadros delimitadores mínimos (MBR, por sus siglas en inglés) en nodos, lo que facilita una búsqueda rápida. [@nievergelt2000spatial]
 
-## Características principales:
+### Características principales:
 
 - **Acceso Espacial:** Optimizan la búsqueda de datos geográficos o geométricos.
 - **Estructura Jerárquica:** Organizan datos en forma de árbol, descendiendo de nodos generales a hojas específicas.
 - **Eficiencia:** Permiten realizar consultas espaciales sin examinar cada objeto individualmente, mejorando el rendimiento en bases de datos.
 - **Uso:** Son fundamentales en sistemas de diseño asistido por ordenador (CAD) y geodatos.[@nievergelt2000spatial]
 
-## Estructura:
+### Estructura:
 
 - **Nodos:** Contienen rectángulos delimitadores que envuelven los datos espaciales.
 - **Hojas:** Nodos finales que contienen los objetos reales.[@nievergelt2000spatial]
