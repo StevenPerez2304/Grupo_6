@@ -1,39 +1,492 @@
 ---
-title: "Arboles_B_R"
+title: "Arboles B y R"
 format: html
 ---
 
-**Fibonacci Heap**
+## Árbol B-tree
+
+Los árboles son estructuras de datos balanceadas, diseñadas específicamente para sistemas de almacenamiento en discos duros y bases de datos, que permiten búsquedas, inserciones y eliminaciones rápidas (O(log n)) al mantener los datos ordenados con múltiples hijos, lo que reduce la profundidad del árbol.
+
+Los nodos hoja del índice están almacenados en un orden aleatorio; esto significa que su posición en el disco no corresponde a la posición lógica según el orden del índice. Por ello, el árbol es de búsqueda equilibrado, ya que todos los hijos se encuentran en un mismo nivel, haciendo que su acceso sea uniforme.[@winand2012sql]
+
+::: text-center
+![Figura 1: Arbol B-tree.[@winand2012sql]](images\Arbol_B.png){fig-align="center" width="50%"}
+:::
+
+## Características Principales:
+
+- **Balanceados:**Todas las hojas se encuentran al mismo nivel, asegurando tiempos de acceso uniformes.
+- **Multicamino:** A diferencia de los árboles binarios, cada nodo puede tener más de dos hijos.
+- **Ordenado:** Las claves dentro de cada nodo están ordenadas de forma ascendente.
+- **Optimizado para I/O:** Optimizados para leer/escribir grandes bloques de datos en disco en tiempo logarítmico.[@winand2012sql]
+
+## Estructura:
+
+- **Nodos:** Un nodo raíz, nodos internos y hojas.
+- **Claves y Punteros:** Cada nodo contiene un conjunto de claves y punteros a sus nodos hijos.
+- **Grado (m):** Define el número máximo de hijos que un nodo puede tener.[@winand2012sql]
+
+Ejemplo en código Java
+
+``` java
+package unl.edu.cc.libro;
+
+class BTreeNode {
+    int t; // grado mínimo
+    int n;
+    int[] keys;
+    BTreeNode[] children;
+    boolean leaf;
+
+    BTreeNode(int t, boolean leaf) {
+        this.t = t;
+        this.leaf = leaf;
+        this.keys = new int[2 * t - 1];
+        this.children = new BTreeNode[2 * t];
+        this.n = 0;
+    }
+
+    void traverse() {
+        int i;
+        for (i = 0; i < n; i++) {
+            if (!leaf)
+                children[i].traverse();
+
+            System.out.print(keys[i] + " ");
+        }
+
+        if (!leaf)
+            children[i].traverse();
+    }
+
+    BTreeNode search(int k) {
+        int i = 0;
+
+        while (i < n && k > keys[i])
+            i++;
+
+        if (i < n && keys[i] == k)
+            return this;
+
+        if (leaf)
+            return null;
+
+        return children[i].search(k);
+    }
+}
+
+class BTree {
+    BTreeNode root;
+    int t;
+
+    BTree(int t) {
+        this.root = null;
+        this.t = t;
+    }
+
+    void traverse() {
+        if (root != null)
+            root.traverse();
+    }
+
+    BTreeNode search(int k) {
+        return (root == null) ? null : root.search(k);
+    }
+
+    public static void main(String[] args) {
+        BTree tree = new BTree(3);
+
+        tree.root = new BTreeNode(3, true);
+        tree.root.keys[0] = 10;
+        tree.root.keys[1] = 20;
+        tree.root.keys[2] = 5;
+        tree.root.n = 3;
+
+        tree.traverse();
+
+        System.out.println(
+                tree.search(20) != null
+                        ? "\nEncontrado"
+                        : "\nNo encontrado"
+        );
+    }
+  }
+}
+```
+
+Resultado en consola
+
+``` r
+10 20 5 
+
+Encontrado 
+```
+
+Ejemplo en código Python
+
+``` python
+class BTreeNode:
+    def __init__(self, leaf=False):
+        self.leaf = leaf
+        self.keys = []
+        self.children = []
+
+class BTree:
+    def __init__(self, t):
+        self.root = BTreeNode(True)
+        self.t = t
+
+    def search(self, k, node=None):
+        if node is None:
+            node = self.root
+
+        i = 0
+        while i < len(node.keys) and k > node.keys[i]:
+            i += 1
+
+        if i < len(node.keys) and node.keys[i] == k:
+            return True
+
+        if node.leaf:
+            return False
+
+        return self.search(k, node.children[i])
+
+    def insert_simple(self, k):
+        self.root.keys.append(k)
+        self.root.keys.sort()
+
+# Uso
+btree = BTree(3)
+
+btree.insert_simple(10)
+btree.insert_simple(20)
+btree.insert_simple(5)
+
+print("Claves:", btree.root.keys)
+
+print("Buscar 20:", btree.search(20))
+print("Buscar 99:", btree.search(99))
+```
+
+Resultado en consola
+
+``` r
+Claves: [ 5, 10 , 20] 
+ 
+Buscar 20: true 
+Buscar 99: false 
+```
+
+Ejemplo código en javascript
+
+``` javascript
+class BTreeNode {
+    constructor(leaf = false) {
+        this.leaf = leaf;
+        this.keys = [];
+        this.children = [];
+    }
+}
+
+class BTree {
+    constructor(t) {
+        this.root = new BTreeNode(true);
+        this.t = t;
+    }
+
+    search(k, node = this.root) {
+        let i = 0;
+
+        while (i < node.keys.length && k > node.keys[i]) {
+            i++;
+        }
+
+        if (i < node.keys.length && node.keys[i] === k) {
+            return true;
+        }
+
+        if (node.leaf) {
+            return false;
+        }
+
+        return this.search(k, node.children[i]);
+    }
+
+    insertSimple(k) {
+        this.root.keys.push(k);
+        this.root.keys.sort((a, b) => a - b);
+    }
+}
+
+// Uso
+const tree = new BTree(3);
+
+tree.insertSimple(10);
+tree.insertSimple(20);
+tree.insertSimple(5);
+
+console.log(tree.root.keys);
+
+console.log("Buscar 20:", tree.search(20));
+console.log("Buscar 99:", tree.search(99));
+```
+
+Resultado en consola
+
+``` r
+[ 5, 10 , 20] 
+ 
+Buscar 20: true 
+Buscar 99: false 
+
+```
+
+## Árbol R-tree
+
+Este árbol ha sido diseñado para mantener celdas de bloque que se superpongan tanto como sea necesario, de modo que cada rectángulo caiga completamente dentro de una celda. En otras palabras, estas son estructuras dinámicas, no lineales, pero sí jerárquicas, similares a los árboles B; sin embargo, se utilizan de manera específica para la indexación de información espacial multidimensional, como coordenadas (x) e (y), rectángulos y polígonos.
+
+Estos funcionan gracias a la agrupación de objetos cercanos mediante los cuadros delimitadores mínimos (MBR, por sus siglas en inglés) en nodos, lo que facilita una búsqueda rápida. [@nievergelt2000spatial]
+
+## Características principales:
+
+- **Acceso Espacial:** Optimizan la búsqueda de datos geográficos o geométricos.
+- **Estructura Jerárquica:** Organizan datos en forma de árbol, descendiendo de nodos generales a hojas específicas.
+- **Eficiencia:** Permiten realizar consultas espaciales sin examinar cada objeto individualmente, mejorando el rendimiento en bases de datos.
+- **Uso:** Son fundamentales en sistemas de diseño asistido por ordenador (CAD) y geodatos.[@nievergelt2000spatial]
+
+## Estructura:
+
+- **Nodos:** Contienen rectángulos delimitadores que envuelven los datos espaciales.
+- **Hojas:** Nodos finales que contienen los objetos reales.[@nievergelt2000spatial]
+
+Ejemplo en código Java
+
+``` java
+package unl.edu.cc.libro;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Rectangle {
+    int x1, y1, x2, y2;
+
+    Rectangle(int x1, int y1, int x2, int y2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+    }
+
+    boolean intersects(Rectangle other) {
+        return !(x2 < other.x1 ||
+                x1 > other.x2 ||
+                y2 < other.y1 ||
+                y1 > other.y2);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + x1 + "," + y1 + "," + x2 + "," + y2 + "]";
+    }
+}
+
+class RTree {
+    List<Rectangle> rectangles = new ArrayList<>();
+
+    void insert(Rectangle rect) {
+        rectangles.add(rect);
+    }
+
+    List<Rectangle> search(Rectangle area) {
+        List<Rectangle> result = new ArrayList<>();
+
+        for (Rectangle r : rectangles) {
+            if (r.intersects(area)) {
+                result.add(r);
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        RTree tree = new RTree();
+
+        tree.insert(new Rectangle(0, 0, 5, 5));
+        tree.insert(new Rectangle(10, 10, 15, 15));
+        tree.insert(new Rectangle(3, 3, 8, 8));
+
+        Rectangle query = new Rectangle(4, 4, 6, 6);
+
+        List<Rectangle> found = tree.search(query);
+
+        System.out.println("Encontrados:");
+        for (Rectangle r : found) {
+            System.out.println(r);
+        }
+    }
+}
+```
+
+Resultado en consola
+
+``` r
+Encontrados:
+
+[0,0,5,5] 
+[3,3,8,8]
+
+```
+
+Ejemplo en código Python
+
+``` python
+class Rectangle:
+    def __init__(self, x1, y1, x2, y2):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+
+    def intersects(self, other):
+        return not (
+                self.x2 < other.x1 or
+                self.x1 > other.x2 or
+                self.y2 < other.y1 or
+                self.y1 > other.y2
+        )
+
+    def __repr__(self):
+        return f"[{self.x1},{self.y1},{self.x2},{self.y2}]"
+
+
+class RTree:
+    def __init__(self):
+        self.rectangles = []
+
+    def insert(self, rect):
+        self.rectangles.append(rect)
+
+    def search(self, area):
+        return [r for r in self.rectangles if r.intersects(area)]
+
+
+# Uso
+tree = RTree()
+
+tree.insert(Rectangle(0, 0, 5, 5))
+tree.insert(Rectangle(10, 10, 15, 15))
+tree.insert(Rectangle(3, 3, 8, 8))
+
+query = Rectangle(4, 4, 6, 6)
+
+print("Encontrados:")
+print(tree.search(query))
+```
+
+Resultado en consola
+
+``` r
+Encontrados:
+
+[[0,0,5,5] , [3,3,8,8]]
+
+```
+
+Ejemplo código en javascript
+
+``` javascript
+class Rectangle {
+    constructor(x1, y1, x2, y2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+    }
+
+    intersects(other) {
+        return !(
+            this.x2 < other.x1 ||
+            this.x1 > other.x2 ||
+            this.y2 < other.y1 ||
+            this.y1 > other.y2
+        );
+    }
+}
+
+class RTree {
+    constructor() {
+        this.rectangles = [];
+    }
+
+    insert(rect) {
+        this.rectangles.push(rect);
+    }
+
+    search(area) {
+        return this.rectangles.filter(r => r.intersects(area));
+    }
+}
+
+// Uso
+const tree = new RTree();
+
+tree.insert(new Rectangle(0, 0, 5, 5));
+tree.insert(new Rectangle(10, 10, 15, 15));
+tree.insert(new Rectangle(3, 3, 8, 8));
+
+const query = new Rectangle(4, 4, 6, 6);
+
+console.log("Encontrados:");
+console.log(tree.search(query));
+```
+
+Resultado en consola
+
+``` r
+Encontrados:
+
+[
+Rectangle { x1: 0, y1: 0, x2: 5, y2: 5} 
+Rectangle { x1: 3, y1: 3, x2: 8, y2: 8}
+]
+```
+
+
+
+
+## Fibonacci Heap
 
 Fibonacci Heap es un tipo de estructura de datos la cual su formato de cola de prioridad formada por un conjunto de árboles con la propiedad de montículo mínimo, está especializado para organizar, gestionar y almacenar datos en la memoria de una computadora (RAM) de manera eficiente, permitiendo un acceso y manipulación rápidos.
 
-Este tipo de estructura de datos son conocidos por su alta eficiencia, ofreciendo tiempos amortizados constantes (O (1)) los cuales sirven para insertar, encontrar el mínimo, disminuir clave y unir estructuras, esta operación, aunque pueden ser lentas ocasionalmente supera a los montículos binarios en algoritmos como por ejemplo Dijkstra o Prim. Este tipo de estructura de datos fueron introducidos por Fredman y Tarjan en 1987.
+Este tipo de estructura de datos son conocidos por su alta eficiencia, ofreciendo tiempos amortizados constantes (O (1)) los cuales sirven para insertar, encontrar el mínimo, disminuir clave y unir estructuras, esta operación, aunque pueden ser lentas ocasionalmente supera a los montículos binarios en algoritmos como por ejemplo Dijkstra o Prim. Este tipo de estructura de datos fueron introducidos por Fredman y Tarjan en 1987.[@brodal2012strict]
 
-**Operaciones y Complejidad Amortizada**
+### Operaciones y Complejidad Amortizada
 
 Las operaciones más comunes en un Fibonacci Heap y sus complejidades temporales (amortizadas):
 
-**make-heap: 0(1):** Esta operación simplemente crea una nueva cola de prioridad vacía.
+- **make-heap: 0(1):** Esta operación simplemente crea una nueva cola de prioridad vacía.
 
-**insert: 0(1):** Se crea un nuevo árbol con un solo nodo y se añade a la lista raíz del montón.
+- **insert: 0(1):** Se crea un nuevo árbol con un solo nodo y se añade a la lista raíz del montón.
 
-**minimum: 0(1):** El heap siempre mantiene un puntero apuntando al nodo con la clave más pequeña. Por lo tanto, saber cuál es el mínimo es inmediato.
+- **minimum: 0(1):** El heap siempre mantiene un puntero apuntando al nodo con la clave más pequeña. Por lo tanto, saber cuál es el mínimo es inmediato.
 
-**extract-min: 0 (log n):** Es la operación más compleja para mantener la estructura. Elimina el mínimo, promueve sus hijos a la lista raíz y fusiona árboles del mismo grado)
+- **extract-min: 0 (log n):** Es la operación más compleja para mantener la estructura. Elimina el mínimo, promueve sus hijos a la lista raíz y fusiona árboles del mismo grado)
 
-**decrease-key: 0(1):** Si el nodo es menor que su padre, el nodo se corta y se mueve a la lista de raíces, activando **cortes en cascada** perdido.
+- **decrease-key: 0(1):** Si el nodo es menor que su padre, el nodo se corta y se mueve a la lista de raíces, activando **cortes en cascada** perdido.
 
-**union: 0(1):** Utiliza la concatenación para unir dos Fibonacci Heaps sin comparar elementos.
+- **union: 0(1):** Utiliza la concatenación para unir dos Fibonacci Heaps sin comparar elementos.
 
-**delete: 0 (log n):** Se implementa haciendo un DecreaseKey a - \![a - \![$-\infty$\]\] y luego ExtractMin.
+- **delete: 0 (log n):** Se implementa haciendo un DecreaseKey a - \![a - \![$-\infty$\]\] y luego ExtractMin.
 
-Su principal aplicación es la optimización de algoritmos de grafos para encontrar caminos más cortos partiendo desde un nodo de origen hacia los demás nodos en un grafo un ejemplo es algoritmo de Dijkstra, y el algoritmo de Prim para encontrar un árbol de expansión mínima la cual conecta todos los vértices del grafo minimizando la suma total de los pesos de las aristas, sin formar ciclos.
+Su principal aplicación es la optimización de algoritmos de grafos para encontrar caminos más cortos partiendo desde un nodo de origen hacia los demás nodos en un grafo un ejemplo es algoritmo de Dijkstra, y el algoritmo de Prim para encontrar un árbol de expansión mínima la cual conecta todos los vértices del grafo minimizando la suma total de los pesos de las aristas, sin formar ciclos.[@brodal2012strict] 
 
 **Ejemplos:**
 
 Estos ejemplos insertan operaciones básicas Insertar, extraer el mínimo y Ver el mínimo. En Python, Java y Java Script.
 
-**\`\`\`Python**
+**Python**
 
 ``` python
 import heapq
@@ -50,7 +503,7 @@ menor = heapq.heappop(mi_heap)
 print("Extraído:", menor)
 ```
 
-**\`\`\`java**
+**java**
 
 ``` java
 import java.util.PriorityQueue;
@@ -71,7 +524,7 @@ public class EjemploHeap {
 }
 ```
 
-**\`\`\` Para JavaScript:**
+**Para JavaScript:**
 
 ``` {.Java .Script}
 // 1. make-heap: Una simple lista
@@ -89,12 +542,4 @@ let menor = miHeap.shift();
 console.log("Extraído:", menor);   
 ```
 
-**Conclusiones**
 
-Fibonacci Heap) es una estructura de datos de cola prioritaria que mejora la eficiencia de los algoritmos gráficos ofreciendo tiempos de ejecución más rápidos (depreciados) para operaciones como inserción, minimización, fusión y reducción en comparación con binarios o binomiales.
-
-**Referencias**
-
-```         
-@inproceedings{brodal2012strict,   title={Strict fibonacci heaps},   author={Brodal, Gerth St{\o}lting and Lagogiannis, George and Tarjan, Robert E},   booktitle={Proceedings of the forty-fourth annual ACM symposium on Theory of computing},   pages={1177--1184},   year={2012} }
-```
