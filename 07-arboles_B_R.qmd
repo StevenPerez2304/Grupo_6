@@ -573,8 +573,8 @@ Extraído: 5
 Un ejemplo cotidiano sería una sala de emergencias en un hospital. Los pacientes llegan constantemente y cada uno tiene una prioridad distinta. El sistema puede agregar nuevos pacientes rápidamente y reorganizar las prioridades solo cuando es necesario, atendiendo primero los casos más urgentes sin rehacer toda la lista cada vez que llega alguien nuevo.
 
 ## Fibonacci Heaps y R
+Los Fibonacci Heaps no vienen incluidos de forma nativa en R por lo cual la implementacion se complica como tambien se dificulta en mantener, ya que R se lo piensa para más el enfoque de análisis estadístico para manejar memoria o estructuras dinamicas. Para trabajar con colas de prioridad R se utiliza un heap binario que suele ser mas que suficiente para la mayoria de situaciones dadas ya que se complementa con el paquete de collections, para realizar todas las operaciones basicas de una cola prioridad de forma sencilla.
 
-Los Fibonacci Heaps, igual que los árboles AVL o B, no vienen incluidos de forma nativa en R y hacer una implementación desde cero sería bastante complicado y difícil de mantener, principalmente porque R está pensado más para análisis estadístico que para manejar memoria o estructuras dinámicas complejas como sí hacen C o C++. En la práctica, para trabajar con colas de prioridad en R no hace falta tanta complejidad, ya que un heap binario suele ser más que suficiente para la mayoría de situaciones; de hecho, con el paquete [collections](https://cran.r-project.org/package=collections?utm_source=chatgpt.com) se puede usar `priority_queue()`, que ya implementa internamente un heap binario y permite realizar todas las operaciones básicas de una cola de prioridad de forma sencilla, sin tener que preocuparse por cómo funciona por dentro un Fibonacci Heap.
 
 ### Implementación en R: Cola de Prioridad con Heap Binario
 
@@ -834,3 +834,14 @@ Con base en esta información, responde las siguientes preguntas:
     - Buscar pedidos por ID.
     - Buscar zonas cercanas.
     - Atender primero lo urgente.
+
+## Conclución 
+
+- Los B-Tree, R-Tree y Fibonacci Heap son estructuras de datos avanzadas que permiten organizar información de manera eficiente según diferentes necesidades computacionales. Cada una optimiza procesos específicos como búsquedas, almacenamiento o manejo de prioridades.
+
+- El B-Tree se utiliza principalmente en bases de datos y sistemas de archivos, mientras que el R-Tree es ideal para búsquedas espaciales y geográficas. El Fibonacci Heap destaca en algoritmos de grafos gracias a su eficiencia en inserciones y actualización de prioridades.
+
+- Estas estructuras mejoran significativamente el rendimiento de los sistemas al reducir tiempos de búsqueda y procesamiento. Su aplicación es fundamental en tecnologías modernas como motores de búsqueda, GIS, videojuegos y sistemas de optimización.
+
+
+
