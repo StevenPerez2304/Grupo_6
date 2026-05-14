@@ -2,129 +2,99 @@
 title: "Arboles_B_R"
 format: html
 ---
-Fibonacci Heap: Conceptos y Ejemplos en R, Java, Python y JavaScript
 
-¿Qué es un Fibonacci Heap?
-Un Fibonacci Heap es una estructura de datos de cola de prioridad más sofisticada que los heaps binarios. Fue introducida por Michael L. Fredman y Robert E. Tarjan en 1987. Su principal característica es que algunas operaciones, como decrease-key y union, tienen coste amortizado constante O(1), lo que la hace teóricamente óptima para ciertos algoritmos de grafos (Dijkstra, Prim).
+**Fibonacci Heap**
 
-A diferencia de un heap binario, un Fibonacci Heap utiliza una colección de árboles (no necesariamente binarios) y mantiene una lista circular doblemente enlazada para los nodos raíz. Esto permite la "pereza" en las operaciones: muchas tareas se postergan hasta que se ejecuta un extract-min.
+Fibonacci Heap es un tipo de estructura de datos la cual su formato de cola de prioridad formada por un conjunto de árboles con la propiedad de montículo mínimo, está especializado para organizar, gestionar y almacenar datos en la memoria de una computadora (RAM) de manera eficiente, permitiendo un acceso y manipulación rápidos.
 
-Operaciones y Complejidades (amortizadas)
-Operación	Complejidad
-make-heap	O(1)
-insert	O(1)
-minimum	O(1)
-extract-min	O(log n)
-decrease-key	O(1) amortizado
-delete	O(log n) amortizado
-union	O(1)
-La operación decrease-key es especialmente relevante porque en un heap binario cuesta O(log n). En algoritmos como Dijkstra, reducir la prioridad de un nodo ocurre muchas veces, de ahí la ventaja teórica.
-Importancia y aplicaciones
+Este tipo de estructura de datos son conocidos por su alta eficiencia, ofreciendo tiempos amortizados constantes (O (1)) los cuales sirven para insertar, encontrar el mínimo, disminuir clave y unir estructuras, esta operación, aunque pueden ser lentas ocasionalmente supera a los montículos binarios en algoritmos como por ejemplo Dijkstra o Prim. Este tipo de estructura de datos fueron introducidos por Fredman y Tarjan en 1987.
 
-Algoritmos de grafos: Mejora el rendimiento de Dijkstra (caminos mínimos) y Prim (árbol de expansión mínima) en grafos densos.
+**Operaciones y Complejidad Amortizada**
 
-Eficiencia teórica: Demuestra límites inferiores para colas de prioridad y sirve como base para estructuras más complejas.
+Las operaciones más comunes en un Fibonacci Heap y sus complejidades temporales (amortizadas):
 
-Investigación: Aunque no se usa en bibliotecas estándar, su análisis amortizado es un clásico en cursos de algoritmos.
-En lenguajes de alto nivel como R, Java, Python o JavaScript no se implementa directamente en sus bibliotecas estándar; se usan heaps binarios (PriorityQueue, heapq, etc.) que son suficientes para la mayoría de los casos prácticos.
+**make-heap: 0(1):** Esta operación simplemente crea una nueva cola de prioridad vacía.
 
-Ejemplos de Código (Colas de prioridad simulando Fibonacci Heap)
-A continuación se muestran implementaciones y uso de colas de prioridad (heap binario) en tres lenguajes. Las operaciones ilustradas son: insert, extract-min, front/peek y simulación de decrease-key mediante reinserción con prioridad más baja.
-Java (con PriorityQueue)
-import java.util.PriorityQueue;
+**insert: 0(1):** Se crea un nuevo árbol con un solo nodo y se añade a la lista raíz del montón.
 
-class Tarea implements Comparable<Tarea> {
-    String nombre;
-    int prioridad;
-    Tarea(String nombre, int prioridad) {
-        this.nombre = nombre;
-        this.prioridad = prioridad;
-    }
-    public int compareTo(Tarea o) {
-        return Integer.compare(this.prioridad, o.prioridad);
-    }
-    public String toString() { return nombre; }
-}
+**minimum: 0(1):** El heap siempre mantiene un puntero apuntando al nodo con la clave más pequeña. Por lo tanto, saber cuál es el mínimo es inmediato.
 
-public class EjemploFibonacciHeap {
-    public static void main(String[] args) {
-        PriorityQueue<Tarea> pq = new PriorityQueue<>();
-        pq.add(new Tarea("Tarea A", 3));
-        pq.add(new Tarea("Tarea B", 1));
-        pq.add(new Tarea("Tarea C", 5));
-        pq.add(new Tarea("Tarea D", 2));
+**extract-min: 0 (log n):** Es la operación más compleja para mantener la estructura. Elimina el mínimo, promueve sus hijos a la lista raíz y fusiona árboles del mismo grado)
 
-        System.out.println(pq.peek());   // Tarea B
-        System.out.println(pq.poll());   // Tarea B
-        System.out.println(pq.peek());   // Tarea D
+**decrease-key: 0(1):** Si el nodo es menor que su padre, el nodo se corta y se mueve a la lista de raíces, activando **cortes en cascada** perdido.
 
-        // Decrease-key simulado
-        pq.add(new Tarea("Tarea A (urgente)", 0));
-        System.out.println(pq.poll());   // Tarea A (urgente)
-    }
-}
+**union: 0(1):** Utiliza la concatenación para unir dos Fibonacci Heaps sin comparar elementos.
 
-Python (con heapq)
+**delete: 0 (log n):** Se implementa haciendo un DecreaseKey a - \![a - \![$-\infty$\]\] y luego ExtractMin.
+
+Su principal aplicación es la optimización de algoritmos de grafos para encontrar caminos más cortos partiendo desde un nodo de origen hacia los demás nodos en un grafo un ejemplo es algoritmo de Dijkstra, y el algoritmo de Prim para encontrar un árbol de expansión mínima la cual conecta todos los vértices del grafo minimizando la suma total de los pesos de las aristas, sin formar ciclos.
+
+**Ejemplos:**
+
+Estos ejemplos insertan operaciones básicas Insertar, extraer el mínimo y Ver el mínimo. En Python, Java y Java Script.
+
+**\`\`\`Python**
+
+``` python
 import heapq
+# 1. make-heap: Crear una lista vacía
+mi_heap = []
+# 2. insert: O(1) en Fibonacci (usando heappush)
+heapq.heappush(mi_heap, 10)
+heapq.heappush(mi_heap, 5)
+heapq.heappush(mi_heap, 20)
+# 3. minimum: Ver el primer elemento O(1)
+print("El mínimo es:", mi_heap[0])
+# 4. extract-min: Quitar el menor O(log n)
+menor = heapq.heappop(mi_heap)
+print("Extraído:", menor)
+```
 
-heapq usa el primer elemento de la tupla como prioridad
-pq = []
-heapq.heappush(pq, (3, "Tarea A"))
-heapq.heappush(pq, (1, "Tarea B"))
-heapq.heappush(pq, (5, "Tarea C"))
-heapq.heappush(pq, (2, "Tarea D"))
+**\`\`\`java**
 
-print(pq[0][1])                 Tarea B
-print(heapq.heappop(pq)[1])     Tarea B
-print(pq[0][1])                 Tarea D
-
-Simular decrease-key: nueva entrada con prioridad 0
-heapq.heappush(pq, (0, "Tarea A (actualizada)"))
-print(heapq.heappop(pq)[1])     Tarea A (actualizada)
-
-JavaScript (implementación simple con array y sort)
-class PriorityQueue {
-    constructor() {
-        this.heap = [];
-    }
-    push(element, priority) {
-        this.heap.push({ element, priority });
-        this.heap.sort((a, b) => a.priority - b.priority);
-    }
-    pop() {
-        return this.heap.shift();
-    }
-    front() {
-        return this.heap[0];
+``` java
+import java.util.PriorityQueue;
+public class EjemploHeap {
+    public static void main(String[] args) {
+        // 1. make-heap
+        PriorityQueue<Integer> miHeap = new PriorityQueue<>();
+        // 2. insert
+        miHeap.add(10);
+        miHeap.add(5);
+        miHeap.add(20);
+        // 3. minimum (peek)
+        System.out.println("El mínimo es: " + miHeap.peek());
+        // 4. extract-min (poll)
+        int menor = miHeap.poll();
+        System.out.println("Extraído: " + menor);
     }
 }
+```
 
-const pq = new PriorityQueue();
-pq.push("Tarea A", 3);
-pq.push("Tarea B", 1);
-pq.push("Tarea C", 5);
-pq.push("Tarea D", 2);
+**\`\`\` Para JavaScript:**
 
-console.log(pq.front().element);   // Tarea B
-console.log(pq.pop().element);     // Tarea B
-console.log(pq.front().element);   // Tarea D
+``` {.Java .Script}
+// 1. make-heap: Una simple lista
+let miHeap = [];
+// 2. insert
+miHeap.push(10);
+miHeap.push(5);
+miHeap.push(20);
+// Para simular el heap, ordenamos (simplificado)
+miHeap.sort((a, b) => a - b);
+// 3. minimum
+console.log("El mínimo es:", miHeap[0]);
+// 4. extract-min (shift)
+let menor = miHeap.shift();
+console.log("Extraído:", menor);   
+```
 
-// Simulación de decrease-key
-pq.push("Tarea A (urgente)", 0);
-console.log(pq.pop().element);     // Tarea A (urgente)
-Conclusión
-Aunque los Fibonacci Heaps son una estructura teórica muy interesante, en la práctica los lenguajes de alto nivel como R, Java, Python o JavaScript no los incluyen en sus bibliotecas estándar. Para casi todos los problemas, un heap binario (PriorityQueue, heapq, etc.) es más que suficiente. Sin embargo, entender cómo funciona un Fibonacci Heap ayuda a apreciar por qué ciertos algoritmos de grafos pueden optimizarse tanto. Si algún día necesitas la máxima eficiencia, siempre puedes implementar el algoritmo en C++ o buscar una librería especializada.
+**Conclusiones**
 
-Referencias(Latex)
-```bibtex
-@article{fredman1987fibonacci,
-  title={Fibonacci heaps and their uses in improved network optimization algorithms},
-  author={Fredman, Michael L and Tarjan, Robert Endre},
-  journal={Journal of the ACM (JACM)},
-  volume={34},
-  number={3},
-  pages={596--615}
-  year={1987},
-  publisher={ACM}
-}
-<!-- Fin del trabajo -->
+Fibonacci Heap) es una estructura de datos de cola prioritaria que mejora la eficiencia de los algoritmos gráficos ofreciendo tiempos de ejecución más rápidos (depreciados) para operaciones como inserción, minimización, fusión y reducción en comparación con binarios o binomiales.
+
+**Referencias**
+
+```         
+@inproceedings{brodal2012strict,   title={Strict fibonacci heaps},   author={Brodal, Gerth St{\o}lting and Lagogiannis, George and Tarjan, Robert E},   booktitle={Proceedings of the forty-fourth annual ACM symposium on Theory of computing},   pages={1177--1184},   year={2012} }
+```
