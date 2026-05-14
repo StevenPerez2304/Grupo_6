@@ -3,6 +3,11 @@ title: "Arboles_B_R"
 format: html
 ---
 
+
+
+
+
+
 **Fibonacci Heap**
 
 Fibonacci Heap es un tipo de estructura de datos la cual su formato de cola de prioridad formada por un conjunto de árboles con la propiedad de montículo mínimo, está especializado para organizar, gestionar y almacenar datos en la memoria de una computadora (RAM) de manera eficiente, permitiendo un acceso y manipulación rápidos.
@@ -103,17 +108,7 @@ El mínimo es: 5
 Extraído: 5
 ```
 
-**Conclusiones**
 
-Fibonacci Heap) es una estructura de datos de cola prioritaria que mejora la eficiencia de los algoritmos gráficos ofreciendo tiempos de ejecución más rápidos (depreciados) para operaciones como inserción, minimización, fusión y reducción en comparación con binarios o binomiales.
-
-**Referencias**
-
-```         
-@inproceedings{brodal2012strict,   title={Strict fibonacci heaps},   author={Brodal, Gerth St{\o}lting and Lagogiannis, George and Tarjan, Robert E},   booktitle={Proceedings of the forty-fourth annual ACM symposium on Theory of computing},   pages={1177--1184},   year={2012} }
-```
-
-<https://dl.acm.org/doi/abs/10.1145/2213977.2214082>
 
 ## Reto de Programación
 
